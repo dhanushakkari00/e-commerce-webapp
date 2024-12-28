@@ -39,7 +39,7 @@ class CartItemSerializer(serializers.ModelSerializer):
     
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
-    items = CartItemSerializer(many = True)
+    items = CartItemSerializer(many = True,read_only= True)
     total_cart_price = serializers.SerializerMethodField(method_name='get_total')
     def get_total(self,cart):
         return sum([item.quantity * item.product.unit_price for item in cart.items.all()])

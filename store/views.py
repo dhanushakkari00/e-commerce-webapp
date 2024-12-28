@@ -7,7 +7,7 @@ from rest_framework import status
 from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin
+from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin
 from rest_framework.viewsets import ModelViewSet,GenericViewSet
 
 class ProductViewSet(ModelViewSet):
@@ -120,6 +120,6 @@ class ReviewModelSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-class CartViewSet(CreateModelMixin,RetrieveModelMixin,GenericViewSet):
+class CartViewSet(CreateModelMixin,RetrieveModelMixin,GenericViewSet,DestroyModelMixin):
     queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
