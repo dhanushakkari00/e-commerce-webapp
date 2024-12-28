@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Product,Collection,Review,Cart
+from .models import Product,Collection,Review,Cart,CartItem
 from rest_framework import status
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin
@@ -123,3 +123,9 @@ class ReviewModelSet(ModelViewSet):
 class CartViewSet(CreateModelMixin,RetrieveModelMixin,GenericViewSet,DestroyModelMixin):
     queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
+
+class CartItemView(ModelViewSet):
+    serializer_class = CartItemSerializer
+    def get_queryset(self):
+        return CartItem.objects.filter(cart_id=self.kwargs['cart_pk']).select_related('product')
+    
