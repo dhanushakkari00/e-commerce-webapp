@@ -2,9 +2,9 @@ from django.shortcuts import get_object_or_404
 from django.http import HttpResponse
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from .models import Product,Collection,Review
+from .models import Product,Collection,Review,Cart
 from rest_framework import status
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin
@@ -120,4 +120,6 @@ class ReviewModelSet(ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
-class CartViewSet(ModelViewSet):
+class CartViewSet(CreateModelMixin,GenericViewSet):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer

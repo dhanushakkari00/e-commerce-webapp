@@ -25,6 +25,7 @@ class ReviewSerializer(serializers.ModelSerializer):
         fields = ['id','date','product','name','description']
         
 class CartSerializer(serializers.ModelSerializer):
+    id = serializers.UUIDField(read_only=True)
     class Meta:
         model = Cart
         fields = ['id'] 
