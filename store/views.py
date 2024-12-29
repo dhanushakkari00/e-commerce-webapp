@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Product,Collection,Review,Cart,CartItem
 from rest_framework import status
-from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,AddCartItemSeriaizer
+from .serializers import ProductSerializer,CollectionSerializer,ReviewSerializer,CartSerializer,CartItemSerializer,AddCartItemSeriaizer,UpdateCartItem
 from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
 from rest_framework.mixins import ListModelMixin,CreateModelMixin,RetrieveModelMixin,DestroyModelMixin
@@ -128,6 +128,8 @@ class CartItemView(ModelViewSet):
     def get_serializer_class(self):
         if self.request.method =='POST':
             return AddCartItemSeriaizer
+        if self.request.method == 'PATCH':
+            return UpdateCartItem
         return CartItemSerializer
     def get_serializer_context(self):
         return {'cart_id':self.kwargs['cart_pk']}
